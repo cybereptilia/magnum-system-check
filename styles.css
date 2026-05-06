@@ -8,7 +8,7 @@ body {
     /* Gradient background (blue → green) */
     background: linear-gradient(135deg, #1E3A8A, #0E9F6E);
 
-    /* NOTE: Bug here — "100 vh" should be "100vh" (no space) */
+
     min-height: 100 vh;
 
     margin: 0;                 /* Remove default browser margin */
