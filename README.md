@@ -19,3 +19,17 @@ Linux-based system monitoring web application using PHP, Perl CGI, Apache2, and 
 - Apache2
 - Linux
 - HTML/CSS
+
+# Screenshots
+
+## Main Menu
+![Main Menu](screenshots/MainMenuMagnumSystem.png)
+
+## Calendar Feature
+![Calendar](screenshots/CalendarMagnumSystem.png)
+
+## Process Viewer
+![Processes](screenshots/CurrentProcessMagnumSystem.png)
+
+## File Search
+![File Search](screenshots/FindFileorDirMagnum.png)
