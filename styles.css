@@ -1,121 +1,175 @@
+/* 
+   Global page styling 
+   -------------------
+*/
 body {
-    font-family: Arial, sans-serif;
+    font-family: Arial, sans-serif; /* Set default font */
+    
+    /* Gradient background (blue → green) */
     background: linear-gradient(135deg, #1E3A8A, #0E9F6E);
+
+    /* NOTE: Bug here — "100 vh" should be "100vh" (no space) */
     min-height: 100 vh;
-    margin: 0;
-    text-align: center;
-    color: #1f2937;
+
+    margin: 0;                 /* Remove default browser margin */
+    text-align: center;        /* Center-align text by default */
+    color: #1f2937;            /* Default text color (dark gray) */
+
+    /* Keeps background fixed when scrolling */
     background-attachment: fixed;
 }
 
+/* 
+   Main container box for all content 
+   ----------------------------------
+*/
 .container {
-    max-width: 850px;
-    width: 78%;
-    margin: 60px auto;
-    padding: 35px;
-    background: white;
-    border-radius: 14px;
+    max-width: 850px;     /* Maximum width */
+    width: 78%;           /* Responsive width */
+    margin: 60px auto;    /* Center horizontally with vertical spacing */
+    padding: 35px;        /* Inner spacing */
+
+    background: white;    /* White background */
+    border-radius: 14px;  /* Rounded corners */
+
+    /* Soft shadow for depth */
     box-shadow: 0 0 18px rgba(0, 0, 0, 0.25);
+
     text-align: center;
 }
 
+/* 
+   Main heading styling 
+   --------------------
+*/
 h1 {
-    color: #1E3A8A;
-    margin-bottom: 20px;
+    color: #1E3A8A;       /* Dark blue */
+    margin-bottom: 20px;  /* Space below heading */
 }
 
+/* 
+   Table styling 
+   -------------
+*/
 table {
-    width: 100%;
-    min-width: 760px;
-    border-collapse: collapse;
+    width: 100%;          /* Full width */
+    min-width: 760px;     /* Prevent shrinking too much */
+    border-collapse: collapse; /* Remove gaps between borders */
     background: white;
 }
 
+/* Table cells (headers and data) */
 th, td {
-    border: 1px solid #ccc;
-    padding: 10px;
-    text-align: center;
-    white-space: nowrap;
+    border: 1px solid #ccc;  /* Light gray border */
+    padding: 10px;           /* Cell padding */
+    text-align: center;      /* Center text */
+    white-space: nowrap;     /* Prevent line wrapping */
     background: white;
 }
 
+/* Table header row */
 th {
-   background: #2f3c8f;
-   color: white;
+   background: #2f3c8f;  /* Dark blue background */
+   color: white;         /* White text */
    font-weight: bold;
 }
 
+/* Align last column (usually commands/text) to the left */
 td:last-child {
     text-align: left;
 }
 
+/* 
+   Preformatted text block (used for search results) 
+   ------------------------------------------------
+*/
 pre {
    text-align: left;
-   background: #f3f4f6;
+   background: #f3f4f6;   /* Light gray background */
    padding: 15px;
    border-radius: 8px;
+
+   /* Allow horizontal scrolling if content is too wide */
    overflow-x: auto;
+
+   /* Limit height and enable vertical scroll */
    max-height: 360px;
 }
 
+/* 
+   Scrollable table container 
+   --------------------------
+*/
 .table-box {
-    max-height: 430px;
-    overflow: auto;
+    max-height: 430px;     /* Limit height */
+    overflow: auto;        /* Enable scrollbars if needed */
     margin: 20px auto;
     width: 95%;
+
     border-radius: 10px;
     background: white;
     border: 1px solid #ccc;
 }
 
+/* 
+   Buttons and submit inputs 
+   -------------------------
+*/
 .button, input[type="submit"] {
     display: inline-block;
     margin-top: 20px;
     padding: 10px 22px;
-    background: #0E9F6E;
+
+    background: #0E9F6E;   /* Green background */
     color: white;
     text-decoration: none;
+
     border: none;
     border-radius: 8px;
-    cursor: pointer;
+
+    cursor: pointer;       /* Pointer cursor on hover */
 }
 
-.button:hover, input[type="submit"]:hover{
-    background: #0b7f59;
-    transform: scale(1.05);
+/* Hover effect for buttons */
+.button:hover, input[type="submit"]:hover {
+    background: #0b7f59;   /* Darker green */
+    transform: scale(1.05); /* Slight zoom effect */
     transition: 0.2s;
 }
 
+/* 
+   Menu options container (radio buttons section) 
+   ----------------------------------------------
+*/
 .menu-options {
-     width: fit-content
+     width: fit-content;   /* Fit width to content */
+
      margin: 20px auto;
-     text-align: left;
+
+     text-align: left;     /* Align labels to the left */
 }
 
+/* Individual option (radio button + label) */
 .option {
      display: block;
      margin: 10px 0;
      font-size: 18px;
 }
 
+/* Space between radio button and label text */
 .option input {
      margin-right: 8px;
 }
 
+/* 
+   Highlight for current day in calendar 
+   -------------------------------------
+*/
 .today {
-    background-color: #b7f7d4;
+    background-color: #b7f7d4;  /* Light green highlight */
     font-weight: bold;
-    border: 2px solid #2f9e63;
-    color: #1f3f5b
+
+    border: 2px solid #2f9e63;  /* Green border */
+    color: #1f3f5b;             /* Darker text color */
+
 }
-
-
-
-
-
-
-
-
-
-
-
