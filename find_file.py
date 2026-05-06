@@ -1,35 +1,38 @@
 #!/usr/bin/python3
-# Shebang line: tells the system to use Python 3 to execute this script
+# Shebang: use Python 3
 
 # Import required modules
-import os                # Access environment variables (e.g., request method)
-import urllib.parse     # Parse URL-encoded form data
-import subprocess       # Run system commands (like 'find')
-import html             # Escape HTML to prevent injection
-import sys              # Read input from standard input (POST data)
+import os
+import urllib.parse
+import subprocess
+import html
+import sys
+import re   # For input validation
 
-# Print HTTP header to indicate HTML content
+# Print HTTP header
 print("Content-type: text/html\n")
 
-# Get the HTTP request method (GET or POST)
+# Get request method
 request_method = os.environ.get("REQUEST_METHOD", "")
 
-# Initialize filename variable
+# Initialize filename
 filename = ""
 
 # -------------------------
-# Handle POST request
+# Handle POST request safely
 # -------------------------
 if request_method == "POST":
-    # Get the length of incoming POST data
-    length = int(os.environ.get("CONTENT_LENGTH", 0))
+    try:
+        # Limit max POST size to prevent abuse (e.g., 1KB)
+        length = min(int(os.environ.get("CONTENT_LENGTH", 0)), 1024)
 
-    # Read POST data from standard input (if any)
-    post_data = sys.stdin.read(length) if length > 0 else ""
+        post_data = sys.stdin.read(length) if length > 0 else ""
 
-    # Parse the POST data into a dictionary
-    # Extract the 'filename' field (default to empty string if not present)
-    filename = urllib.parse.parse_qs(post_data).get("filename", [""])[0]
+        # Extract filename
+        filename = urllib.parse.parse_qs(post_data).get("filename", [""])[0]
+
+    except:
+        filename = ""
 
 # -------------------------
 # Start HTML output
@@ -49,43 +52,55 @@ print("""
 # If user submitted a filename
 # -------------------------
 if filename:
-    # Escape filename for safe HTML display (prevents XSS)
+    # Trim whitespace
+    filename = filename.strip()
+
+    # Escape for HTML display
     safe_filename = html.escape(filename)
 
-    # Create search pattern for 'find' command (case-insensitive match)
-    search = f"*{filename}*"
-
-    # Run the Linux 'find' command to search within /home/garcia146
-    completed = subprocess.run(
-        ["find", "/home/garcia146", "-iname", search],  # Command and arguments
-        stdout=subprocess.PIPE,     # Capture standard output
-        stderr=subprocess.DEVNULL,  # Suppress error messages
-        text=True                  # Return output as string (not bytes)
-    )
-
-    # Store the command output
-    result = completed.stdout
-
-    # Display search results heading
-    print(f"<p>Search results for: <strong>{safe_filename}</strong></p>")
-
-    # Display results in preformatted text block
-    print("<pre>")
-
-    # If results exist, print them (escaped for safety)
-    if result.strip():
-        print(html.escape(result))
+    # -------------------------
+    # Validate input (IMPORTANT)
+    # -------------------------
+    # Allow only safe characters (letters, numbers, ., -, _)
+    if not re.match(r'^[\w.\-]{1,100}$', filename):
+        print("<p>Invalid filename. Use only letters, numbers, ., -, _</p>")
     else:
-        # If no results found
-        print("No file or directory found.")
+        # Create safe search pattern
+        search = f"*{filename}*"
 
-    print("</pre>")
+        try:
+            # Run find with safety limits
+            completed = subprocess.run(
+                ["find", "/home/garcia146", "-iname", search],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.DEVNULL,
+                text=True,
+                timeout=5  # Prevent long-running searches
+            )
+
+            result = completed.stdout
+
+        except subprocess.TimeoutExpired:
+            result = "Search timed out. Please try a more specific name."
+
+        # -------------------------
+        # Display results
+        # -------------------------
+        print(f"<p>Search results for: <strong>{safe_filename}</strong></p>")
+        print("<pre>")
+
+        if result.strip():
+            # Limit output size (e.g., first 10,000 chars)
+            print(html.escape(result[:10000]))
+        else:
+            print("No file or directory found.")
+
+        print("</pre>")
 
 # -------------------------
-# If no filename provided (initial page load)
+# If no filename provided
 # -------------------------
 else:
-    # Display search form
     print("""
     <p>Enter the name of a file or directory to search inside /home.</p>
     <form method="POST" action="/cgi-bin/find_file.py">
@@ -95,7 +110,7 @@ else:
     """)
 
 # -------------------------
-# Footer and navigation
+# Footer
 # -------------------------
 print("""
 <a class="button" href="/index.php">Return Main Menu</a>
