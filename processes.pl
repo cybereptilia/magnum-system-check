@@ -18,8 +18,7 @@ print "<title>Processes</title>";
 # Link external CSS file for styling
 print "<link rel='stylesheet' type='text/css' href='/styles.css'>";
 
-# NOTE: Minor bug here — missing closing ">" in </head>
-print "</head";
+print "</head>";
 
 print "<body>";
 
