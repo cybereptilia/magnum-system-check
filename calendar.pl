@@ -4,7 +4,7 @@
 # This script displays a web form that lets the user enter
 # a month and year, then generates a calendar for that input.
 
-use strict;      # Enforces good coding practices (e.g., variable declaration)
+use strict;     
 use warnings;    # Shows warnings for potential issues
 use CGI;         # Module for handling CGI (web form input/output)
 use POSIX qw(strftime);  # Provides date/time formatting functions
@@ -46,12 +46,11 @@ print "<form method='POST' action='/cgi-bin/calendar.pl'>";
 
 # Month input field
 print "<label>Month:</label>";
-# NOTE: There is a small typo here: min'1' should be min='1'
+
 print "<input type='number' name='month' min'1' max='12' value='$month' required>";
 
 # Year input field
 print "<label>Year:</label>";
-# NOTE: Same typo here: min'1900' should be min='1900'
 print "<input type='number' name='year' min'1900' max='2100' value='$year' required>";
 
 # Submit button
